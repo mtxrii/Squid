@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 1000; i++ {
 		fmt.Println(strconv.Itoa(i) + ")" + string(i))
 	}
 

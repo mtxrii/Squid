@@ -1,6 +1,6 @@
 package main
 
-var lowercaseGlyphs = map[rune]string{
+var charGlyphs = map[rune]string{
 	'a': "║╝",
 	'b': "╚╗",
 	'c': "╔╝",
@@ -30,14 +30,29 @@ var lowercaseGlyphs = map[rune]string{
 }
 
 var numberGlyphs = map[rune]string{
-	'1': "ƞ",
-	'2': "Ɔ",
-	'3': "Ʃ",
-	'4': "¢",
-	'5': "Ʈ",
-	'6': "Ĳ",
-	'7': "ƴ",
-	'8': "Ɨ",
-	'9': "Ɩ",
-	'0': "Ɖ",
+	'1': "(ƞ",
+	'2': "@#",
+	'3': "Ʃ^",
+	'4': "*¢",
+	'5': "(Ʈ",
+	'6': "+Ĳ",
+	'7': "ƴƴ",
+	'8': "_Ɨ",
+	'9': "Ɩ)",
+	'0': "Ɖ)",
 }
+
+var specialGlyphs = map[rune]string{
+	'.':""
+}
+
+/*
+Rules:
+
+lowercase - normal charGlyph replacement
+numbers - normal numberGlyph replacement
+uppercase - '{' + charGlyph
+spaces - stay same
+special characters - if in 'specialGlyphs' replace with , else stay as defined
+
+*/
