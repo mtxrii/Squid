@@ -43,7 +43,12 @@ var numberGlyphs = map[rune]string{
 }
 
 var specialGlyphs = map[rune]string{
-	'.':""
+	'.': "Ͳ",
+	',': "Ȝ",
+	'"': ">",
+	'-': "Ϟ",
+	';': "Ɓ",
+	':': "ī",
 }
 
 /*
