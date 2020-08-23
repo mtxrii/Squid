@@ -2,11 +2,15 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 )
 
 func main() {
-	typeThis("Hello World")
+	for i := 0; i < 10; i++ {
+		fmt.Println(strconv.Itoa(i) + ")" + string(i))
+	}
+
 }
 
 func typeThis(text string) {
