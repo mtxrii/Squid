@@ -43,10 +43,10 @@ var reverseNumberGlyphs = map[string]rune{
 }
 
 var reverseSpecialGlyphs = map[string]rune{
-	"Ͳ": '.',
-	"Ȝ": ',',
-	">": '"',
-	"Ϟ": '-',
-	"$": ';',
-	"ī": ':',
+	"Ͳ╗": '.',
+	"═Ȝ": ',',
+	">(": '"',
+	"Ϟ╝": '-',
+	"╚$": ';',
+	"ī╔": ':',
 }
