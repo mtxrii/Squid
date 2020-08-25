@@ -26,6 +26,8 @@ func encode(text string) {
 		var char = string(c)
 		if char == string(' ') {
 			result += string(' ')
+		} else {
+
 		}
 	}
 }
