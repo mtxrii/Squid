@@ -22,9 +22,6 @@ func typeThis(text string) {
 }
 
 func encode(text string) string {
-	var charGlyphs = GetCharGlyphs()
-	var numberGlyphs = GetNumberGlyphs()
-	var specialGlyphs = GetSpecialGlyphs()
 
 	var result string
 	for _, c := range text {
@@ -46,4 +43,8 @@ func encode(text string) string {
 		}
 	}
 	return result
+}
+
+func decode(cypher string) string {
+	return "   "
 }
