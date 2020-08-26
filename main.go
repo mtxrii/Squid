@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 	"time"
+	"unicode"
 )
 
 func main() {
-	encode("hello world")
+	fmt.Print(encode("hello world"))
 }
 
 func typeThis(text string) {
@@ -20,14 +21,14 @@ func typeThis(text string) {
 	}
 }
 
-func encode(text string) {
+func encode(text string) string {
 	var result string
 	for _, c := range text {
-		var char = string(c)
-		if char == string(' ') {
+		if c == ' ' {
 			result += string(' ')
-		} else {
-
+		} else if unicode.IsDigit(c) {
+			result += numberGlyphs[c]
 		}
 	}
+	return result
 }
