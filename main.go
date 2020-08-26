@@ -2,15 +2,11 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"time"
 )
 
 func main() {
-	for i := 0; i < 10; i++ {
-		fmt.Println(strconv.Itoa(i) + ")" + string(i))
-	}
-
+	encode("hello world")
 }
 
 func typeThis(text string) {
@@ -20,6 +16,16 @@ func typeThis(text string) {
 			time.Sleep(30 * time.Millisecond)
 		} else {
 			time.Sleep(85 * time.Millisecond)
+		}
+	}
+}
+
+func encode(text string) {
+	var result string
+	for _, c := range text {
+		var char = string(c)
+		if char == string(' ') {
+			result += string(' ')
 		}
 	}
 }
