@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 var app = cli.NewApp()
@@ -22,7 +23,7 @@ func commands() {
 		{
 			Name:    "url",
 			Aliases: []string{"fetch", "get"},
-			Usage:   "Makes an HTTP request to the URL and prints the response directly to the console.",
+			Usage:   "Makes an HTTP request to the specified URL and prints the response directly to the console.",
 			Action: func(c *cli.Context) {
 				url := c.Args().Get(0)
 				if url == "" {
@@ -30,7 +31,7 @@ func commands() {
 					return
 				}
 
-				unknown := "Sorry, but this website cannot be found"
+				unknown := "Error: this website cannot be found."
 				resp, err := http.Get(url)
 				if err != nil {
 					print(unknown)
@@ -46,6 +47,43 @@ func commands() {
 				}
 
 				print("\n" + string(body))
+			},
+		},
+		{
+			Name:    "profile",
+			Aliases: []string{"ping"},
+			Usage:   "Sends specified number of requests to the specified URL, times them, and delivers speed statistics.",
+			Action: func(c *cli.Context) {
+				times := c.Args().Get(0)
+				url := c.Args().Get(1)
+				if times == "" || url == "" {
+					print("Usage: profile <number of requests> <full url>")
+					return
+				}
+
+				n, err := strconv.Atoi(times)
+				if err != nil {
+					print("Error: number of requests must be a positive integer.")
+					return
+				}
+
+				if n < 1 {
+					print("Error: number of requests must be a positive integer.")
+					return
+				}
+
+				if _, err := http.Get(url); err != nil {
+					print("Error: this website cannot be found.")
+					return
+				}
+
+				speed, err := Ping(url)
+				if err != nil {
+					print(err)
+					return
+				}
+				print(speed)
+
 			},
 		},
 	}
