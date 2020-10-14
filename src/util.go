@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"sort"
 	"time"
 )
 
@@ -25,16 +24,17 @@ func Ping(url string) (speed, size int, result error) {
 }
 
 // Takes an int slice and returns the median (as a single element slice)
-func Median(slc []int) (med []int) {
+func Median(slc []int) (mdn []int) {
 	n := len(slc)
 	if n == 0 {
-		return 0
+		return []int{0}
 	}
 	if n == 1 {
-		return slc[0]
+		return slc
 	}
 	if n == 2 {
-		return (slc[0] + slc[1]) / 2
+		return []int{(slc[0] + slc[1]) / 2}
 	}
 
+	return Median(slc[1 : n-1])
 }
