@@ -86,16 +86,16 @@ func commands() {
 				fastest, slowest, total, smallest, largest, successRate := 0, 0, 0, 0, 0, 0
 				var mdn []int
 
-				println("Sending " + string(n) + " requests...")
+				println("Sending " + strconv.Itoa(n) + " requests...")
 				for i := 1; i <= n; i++ {
-					print("Attempt 1 - ")
+					print("Attempt " + strconv.Itoa(i) + " - ")
 					speed, size, err := Ping(url)
 					if err != nil {
-						println("ERROR: " + string(speed))
+						println("ERROR:   " + strconv.Itoa(speed))
 						continue
 					}
 
-					println("SUCCESS: " + string(speed) + " ms (" + string(size) + " bytes)")
+					println("SUCCESS: " + strconv.Itoa(speed) + " ms (" + strconv.Itoa(size) + " bytes)")
 					if speed < fastest {
 						fastest = speed
 					}
@@ -114,13 +114,13 @@ func commands() {
 				}
 
 				println("\nSUMMARY:\n" +
-					"Total requests - " + string(n) + " ms\n" +
-					"Fastest response - " + string(fastest) + " ms\n" +
-					"Slowest response - " + string(slowest) + " ms\n" +
-					"Average response - " + fmt.Sprintf("%.2f", float32(total)/float32(n)) + " ms\n" +
-					"Median response - " + string(Median(mdn)) + " ms\n" +
-					"Smallest response - " + string(smallest) + " bytes\n" +
-					"Largest response - " + string(largest) + " bytes")
+					"Total requests -    " + strconv.Itoa(n) + " ms\n" +
+					"Fastest response -  " + strconv.Itoa(fastest) + " ms\n" +
+					"Slowest response -  " + strconv.Itoa(slowest) + " ms\n" +
+					"Average response -  " + fmt.Sprintf("%.2f", float32(total)/float32(n)) + " ms\n" +
+					"Median response -   " + strconv.Itoa(Median(mdn)) + " ms\n" +
+					"Smallest response - " + strconv.Itoa(smallest) + " bytes\n" +
+					"Largest response -  " + strconv.Itoa(largest) + " bytes")
 
 			},
 		},
