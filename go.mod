@@ -1,4 +1,4 @@
-module squid.edavalos.com/m
+module github.com/mtxrii/Squid
 
 go 1.15
 
