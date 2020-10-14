@@ -15,9 +15,9 @@ var app = cli.NewApp()
 
 func info() {
 	app.Name = "Squid"
-	app.Usage = "A web getter & speed tester CLI"
+	app.Usage = "An http getter & web speed tester CLI"
 	app.Author = "mtxrii"
-	app.Version = "0.1.1"
+	app.Version = "1.0.0"
 }
 
 func commands() {
