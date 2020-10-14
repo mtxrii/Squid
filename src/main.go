@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/urfave/cli"
 	"io/ioutil"
 	"log"
@@ -72,17 +73,54 @@ func commands() {
 					return
 				}
 
-				if _, err := http.Get(url); err != nil {
-					print("Error: this website cannot be found.")
-					return
+				//if _, err := http.Get(url); err != nil {
+				//	print("Error: this website cannot be found.")
+				//	return
+				//}
+
+				//  fastest - request with the lowest ms
+				//  slowest - request with the highest ms
+				//  total - all ms added up, used for mean & mdn
+				//  smallest & largest - their byte sizes
+				//  successRate - number of times a result is found
+				fastest, slowest, total, smallest, largest, successRate := 0, 0, 0, 0, 0, 0
+				var mdn []int
+
+				println("Sending " + string(n) + " requests...")
+				for i := 1; i <= n; i++ {
+					print("Attempt 1 - ")
+					speed, size, err := Ping(url)
+					if err != nil {
+						println("ERROR: " + string(speed))
+						continue
+					}
+
+					println("SUCCESS: " + string(speed) + " ms (" + string(size) + " bytes)")
+					if speed < fastest {
+						fastest = speed
+					}
+					if speed > slowest {
+						slowest = speed
+					}
+					if size < smallest {
+						smallest = size
+					}
+					if size > largest {
+						largest = size
+					}
+					mdn = append(mdn, speed)
+					successRate++
+					total += speed
 				}
 
-				speed, err := Ping(url)
-				if err != nil {
-					print(err)
-					return
-				}
-				print(speed)
+				println("\nSUMMARY:\n" +
+					"Total requests - " + string(n) + " ms\n" +
+					"Fastest response - " + string(fastest) + " ms\n" +
+					"Slowest response - " + string(slowest) + " ms\n" +
+					"Average response - " + fmt.Sprintf("%.2f", float32(total)/float32(n)) + " ms\n" +
+					"Median response - " + string(Median(mdn)) + " ms\n" +
+					"Smallest response - " + string(smallest) + " bytes\n" +
+					"Largest response - " + string(largest) + " bytes")
 
 			},
 		},
