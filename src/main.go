@@ -48,7 +48,7 @@ func commands() {
 					return
 				}
 
-				print("\n" + string(body))
+				println("\n" + string(body))
 			},
 		},
 		{
@@ -74,17 +74,12 @@ func commands() {
 					return
 				}
 
-				//if _, err := http.Get(url); err != nil {
-				//	print("Error: this website cannot be found.")
-				//	return
-				//}
-
 				//  fastest - request with the lowest ms
 				//  slowest - request with the highest ms
 				//  total - all ms added up, used for mean & mdn
 				//  smallest & largest - their byte sizes
 				//  successRate - number of times a result is found
-				fastest, slowest, total, smallest, largest, successRate := 1000, 0, 0, 0, 0, 0
+				fastest, slowest, total, smallest, largest, successRate := -1, -1, 0, -1, -1, 0
 				var mdn []int
 
 				println("Sending " + strconv.Itoa(n) + " requests...")
@@ -92,21 +87,21 @@ func commands() {
 					print("Attempt " + strconv.Itoa(i) + " - ")
 					speed, size, err := Ping(url)
 					if err != nil {
-						println("ERROR:   " + strconv.Itoa(speed))
+						println("ERROR:   " + strconv.Itoa(speed) + " " + http.StatusText(speed))
 						continue
 					}
 
 					println("SUCCESS: " + strconv.Itoa(speed) + " ms (" + strconv.Itoa(size) + " bytes)")
-					if speed < fastest {
+					if speed < fastest || fastest == -1 {
 						fastest = speed
 					}
-					if speed > slowest {
+					if speed > slowest || slowest == -1 {
 						slowest = speed
 					}
-					if size < smallest {
+					if size < smallest || smallest == -1 {
 						smallest = size
 					}
-					if size > largest {
+					if size > largest || largest == -1 {
 						largest = size
 					}
 					mdn = append(mdn, speed)
@@ -114,16 +109,20 @@ func commands() {
 					total += speed
 				}
 
+				if successRate == 0 {
+					fastest = 0
+				}
+
 				sort.Ints(mdn)
 				println("\nSUMMARY:\n" +
-					"Total requests -    " + strconv.Itoa(n) + "\n" +
-					"Fastest response -  " + strconv.Itoa(fastest) + " ms\n" +
-					"Slowest response -  " + strconv.Itoa(slowest) + " ms\n" +
-					"Average response -  " + fmt.Sprintf("%.2f", float32(total)/float32(n)) + " ms\n" +
-					"Median response -   " + strconv.Itoa(Median(mdn)[0]) + " ms\n" +
+					"Total requests ---- " + strconv.Itoa(n) + "\n" +
+					"Fastest response -- " + strconv.Itoa(fastest) + " ms\n" +
+					"Slowest response -- " + strconv.Itoa(slowest) + " ms\n" +
+					"Average response -- " + fmt.Sprintf("%.2f", float32(total)/float32(n)) + " ms\n" +
+					"Median response --- " + strconv.Itoa(Median(mdn)[0]) + " ms\n" +
 					"Smallest response - " + strconv.Itoa(smallest) + " bytes\n" +
-					"Largest response -  " + strconv.Itoa(largest) + " bytes\n" +
-					"Success rate -      " + fmt.Sprintf("%.0f", (float32(successRate)/float32(n))*100) + "%")
+					"Largest response -- " + strconv.Itoa(largest) + " bytes\n" +
+					"Success rate ------ " + fmt.Sprintf("%.0f", (float32(successRate)/float32(n))*100) + "%")
 
 			},
 		},

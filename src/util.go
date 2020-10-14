@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"net/http"
 	"time"
 )
@@ -12,15 +13,21 @@ func Ping(url string) (speed, size int, result error) {
 	speedResult := (time.Now().UnixNano() / 1000000) - now
 
 	if err != nil {
-		return 0, 0, err
+		return 404, 0, err
 	}
 
-	defer resp.Body.Close()
 	if resp.StatusCode < 200 || resp.StatusCode >= 400 {
+		defer resp.Body.Close()
 		return resp.StatusCode, 0, err
 	}
 
-	return int(speedResult), int(resp.ContentLength), nil
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		body = []byte{}
+	}
+
+	resp.Body.Close()
+	return int(speedResult), len(body), nil
 }
 
 // Takes an int slice and returns the median (as a single element slice)
