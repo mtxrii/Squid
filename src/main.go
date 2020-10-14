@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sort"
 	"strconv"
 )
 
@@ -83,7 +84,7 @@ func commands() {
 				//  total - all ms added up, used for mean & mdn
 				//  smallest & largest - their byte sizes
 				//  successRate - number of times a result is found
-				fastest, slowest, total, smallest, largest, successRate := 0, 0, 0, 0, 0, 0
+				fastest, slowest, total, smallest, largest, successRate := 1000, 0, 0, 0, 0, 0
 				var mdn []int
 
 				println("Sending " + strconv.Itoa(n) + " requests...")
@@ -113,14 +114,16 @@ func commands() {
 					total += speed
 				}
 
+				sort.Ints(mdn)
 				println("\nSUMMARY:\n" +
-					"Total requests -    " + strconv.Itoa(n) + " ms\n" +
+					"Total requests -    " + strconv.Itoa(n) + "\n" +
 					"Fastest response -  " + strconv.Itoa(fastest) + " ms\n" +
 					"Slowest response -  " + strconv.Itoa(slowest) + " ms\n" +
 					"Average response -  " + fmt.Sprintf("%.2f", float32(total)/float32(n)) + " ms\n" +
-					"Median response -   " + strconv.Itoa(Median(mdn)) + " ms\n" +
+					"Median response -   " + strconv.Itoa(Median(mdn)[0]) + " ms\n" +
 					"Smallest response - " + strconv.Itoa(smallest) + " bytes\n" +
-					"Largest response -  " + strconv.Itoa(largest) + " bytes")
+					"Largest response -  " + strconv.Itoa(largest) + " bytes\n" +
+					"Success rate -      " + fmt.Sprintf("%.0f", (float32(successRate)/float32(n))*100) + "%")
 
 			},
 		},
